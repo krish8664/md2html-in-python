@@ -2,7 +2,6 @@ import re, sys
 
 #Conver the link in md format to html format
 def replace_link(md_string):
-	print "in replace_link with " + md_string
 	split_link_regex = re.compile(r'[()\[\]]')
 	#Split to title and url
 	link_title = split_link_regex.split(md_string)[1]
@@ -11,7 +10,6 @@ def replace_link(md_string):
 
 #Match Headers or Paragraph markdown and convert to  html format
 def match_headers(prev_line, md_string, next_line):
-	print "in match_headers"
 	#Dictionary format to store html conversion of md headers tag
 	dic = {"#" : ("<h1>", "</h1>"),
 		"##" : ("<h2>", "</h2>"),
@@ -39,7 +37,6 @@ def match_headers(prev_line, md_string, next_line):
 
 #Match the link format from md file
 def match_link(md_string):
-	print "in match_link " + md_string 
 	#regex for link in md format
 	link_regex = re.compile(r'((\[)[^\]*]+(\])(\s)*(\()\S+(\)))')
 	match = link_regex.search(md_string)
@@ -48,11 +45,6 @@ def match_link(md_string):
 		return md_string[:match.start()] + replace_link(md_string[match.start() : match.end()]) + match_link(md_string[match.end():])
 	else:
 		return md_string
-
-#def parse_to_html(md_string):
-#	print "in parse_to_html"
-#	header_appended = match_headers(md_string)
-#	return match_link(header_appended)
 
 #Read content of markdown file and write to html file after convertion
 def parse_md_file(md_file, html_file):
